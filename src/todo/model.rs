@@ -53,8 +53,12 @@ impl Todo {
 
     pub async fn find_all(pool: &PgPool) -> Result<Vec<Todo>> {
         let mut todos = vec![];
-
-        let recs = sqlx::query!(r#" SELECT * FROM todos ORDER BY id"#)
+        let recs = sqlx::query(r#" SELECT * FROM todos ORDER BY id"#)
+            .map(|row: PgRow| Todo {
+                id: row.get(0),
+                description: row.get(1),
+                done: row.get(2),
+            })
             .fetch_all(pool)
             .await?;
 
@@ -70,20 +74,23 @@ impl Todo {
     }
 
     pub async fn find_by_id(id: i32, pool: &PgPool) -> Result<Todo> {
-        let rec = sqlx::query!(
+        let mut tx = pool.begin().await?;
+        let todo = sqlx::query(
             r#"
                 SELECT * FROM todos WHERE id = $1
             "#,
-            id,
         )
-        .fetch_one(&*pool)
+        .bind(id)
+        .map(|row: PgRow| Todo {
+            id: row.get(0),
+            description: row.get(1),
+            done: row.get(2),
+        })
+        .fetch_one(&mut tx)
         .await?;
 
-        Ok(Todo {
-            id: rec.id,
-            description: rec.description,
-            done: rec.done,
-        })
+        tx.commit().await.unwrap();
+        Ok(todo)
     }
 
     pub async fn delete(id: i32, pool: &PgPool) -> Result<i32> {
