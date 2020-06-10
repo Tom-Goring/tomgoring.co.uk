@@ -1,7 +1,7 @@
 [package]
-name = "todo-app"
+name = "todo-api"
 version = "0.1.0"
-authors = ["Tom Goring <tgoring97@gmail.com>"]
+authors = ["Tom Goring <mail@tomgoring.co.uk>"]
 edition = "2018"
 
 [dependencies]
