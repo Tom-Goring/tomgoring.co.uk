@@ -5,15 +5,15 @@ authors = ["Tom Goring <tgoring97@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-listenfd = "0.3"
+listenfd = "0.3.3"
 actix-web = "2.0.0"
-actix-rt = "*"
-serde = "1.0.106"
-serde_json = "1.0.51"
-sqlx = { version = "*", features = [ "postgres" ] }
-futures = "*"
-dotenv = "*"
-anyhow = "*"
-log = "*"
+actix-rt = "1.1.1"
+serde = "1.0.111"
+serde_json = "1.0.55"
+sqlx = { version = "0.3.5", features = [ "postgres" ] }
+futures = "0.3.5"
+dotenv = "0.15.0"
+anyhow = "1.0.31"
+log = "0.4.8"
 actix-cors = "0.2.0"
 env_logger = "0.7.1"
