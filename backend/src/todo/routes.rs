@@ -23,6 +23,7 @@ async fn find(id: web::Path<i32>, db_pool: web::Data<PgPool>) -> impl Responder 
 
 #[post("/todo")]
 async fn create(todo: web::Json<TodoRequest>, db_pool: web::Data<PgPool>) -> impl Responder {
+    info!("Creating new Todo");
     let result = Todo::create(todo.into_inner(), db_pool.get_ref()).await;
     match result {
         Ok(todo) => HttpResponse::Ok().json(todo),
