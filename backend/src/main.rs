@@ -4,7 +4,6 @@ extern crate env_logger;
 
 use actix_web::{web, App, HttpRequest, HttpServer, Responder, middleware::Logger};
 use listenfd::ListenFd;
-use dotenv::dotenv;
 use std::env;
 use sqlx::PgPool;
 use anyhow::Result;
@@ -17,7 +16,6 @@ async fn index(_req: HttpRequest) -> impl Responder {
 
 #[actix_rt::main]
 async fn main() -> Result<()> {
-    dotenv().ok();
     env_logger::init();
 
     let mut listenfd = ListenFd::from_env();
@@ -36,7 +34,7 @@ async fn main() -> Result<()> {
     server = if let Some(l) = listenfd.take_tcp_listener(0).unwrap() {
         server.listen(l)?
     } else {
-        server.bind("127.0.0.1:3000")?
+        server.bind("0.0.0.0:3000")?
     };
 
     info!("Starting server");
