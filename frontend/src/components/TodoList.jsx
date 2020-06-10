@@ -7,6 +7,7 @@ import {
   Paper,
   Fab,
   IconButton,
+  makeStyles,
 } from "@material-ui/core";
 import { Delete, Add, Refresh } from "@material-ui/icons/";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -14,8 +15,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTodos, deleteTodo } from "../store/actions/todoActions";
 import { TodoDialog } from "./TodoDialog";
 
+const useStyles = makeStyles((theme) => ({
+  // todo: {
+  //   maxWidth: "75%",
+  // },
+}));
+
 const TodoList = (props) => {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+
+  console.log("Loading todo list");
 
   const dispatch = useDispatch();
 
@@ -45,7 +55,7 @@ const TodoList = (props) => {
 
   return (
     <div>
-      <Paper>
+      <Paper className={classes.todo}>
         <TodoDialog open={open} setOpen={setOpen} />
         <List disablePadding={true}>
           <TransitionGroup className="todo-list">
@@ -55,11 +65,13 @@ const TodoList = (props) => {
                   <ListItemText>
                     <Typography>{description}</Typography>
                   </ListItemText>
+                  {/* TODO: Add progress display */}
+                  {/* TODO: Add progress/description update */}
+                  {/* CONSIDER: Add click to display details on extra paper window */}
                   <IconButton
                     onClick={() => {
                       dispatch(deleteTodo(id));
-                    }}
-                  >
+                    }}>
                     <Delete />
                   </IconButton>
                 </ListItem>
@@ -74,8 +86,7 @@ const TodoList = (props) => {
         color="primary"
         onClick={() => {
           setOpen(true);
-        }}
-      >
+        }}>
         <Add />
       </Fab>
       <Fab
@@ -83,8 +94,7 @@ const TodoList = (props) => {
         color="primary"
         onClick={() => {
           dispatch(getTodos());
-        }}
-      >
+        }}>
         <Refresh />
       </Fab>
     </div>

@@ -1,11 +1,5 @@
 import axios from "axios";
-import {
-  GET_TODOS,
-  ADD_TODO,
-  DELETE_TODO,
-  UPDATE_TODO,
-  TODOS_LOADING,
-} from "./types";
+import { GET_TODOS, ADD_TODO, DELETE_TODO, UPDATE_TODO, TODOS_LOADING } from "./types";
 
 export const getTodos = () => (dispatch) => {
   dispatch(setTodosLoading());
@@ -23,15 +17,12 @@ export const getTodos = () => (dispatch) => {
 
 export const addTodo = (description) => {
   return (dispatch) => {
-    return axios
-      .post("/todo", { description: description, done: 0 })
-      .then((res) => {
-        console.log(res);
-        dispatch({
-          type: ADD_TODO,
-          payload: res.data,
-        });
+    return axios.post("/todo", { description: description, done: 0 }).then((res) => {
+      dispatch({
+        type: ADD_TODO,
+        payload: res.data,
       });
+    });
   };
 };
 
