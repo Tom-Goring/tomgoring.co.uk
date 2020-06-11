@@ -1,0 +1,6 @@
+[submodule "tomgoring.co.uk-client"]
+	path = tomgoring.co.uk-client
+	url = git@github.com:Tom-Goring/tomgoring.co.uk-client.git
+[submodule "tomgoring.co.uk-api"]
+	path = tomgoring.co.uk-api
+	url = git@github.com:Tom-Goring/tomgoring.co.uk-api.git
