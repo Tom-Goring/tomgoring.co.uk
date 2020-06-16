@@ -14,6 +14,7 @@ spec:
       labels:
         app: tgcu
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
         - name: api
           image: registry.tomgoring.co.uk/tomgo/api
@@ -38,6 +39,8 @@ spec:
                   key: POSTGRES_DB
             - name: DATABASE_URL
               value: "postgres://$(DB_USER):$(DB_PASS)@postgres-service.default/$(DB_NAME)"
+            - name: RUST_LOG
+              value: "todo_api=info,actix=info"
         - name: client
           image: registry.tomgoring.co.uk/tomgo/client
           imagePullPolicy: Always

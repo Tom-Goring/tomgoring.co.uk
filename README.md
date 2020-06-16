@@ -8,6 +8,9 @@ Deployed with a self-hosted CI/CD pipeline using drone.io and a kubernetes clust
 
 - [x] Set up SSL, domains, and ingress.
 - [x] Finish setting up CI/CD pipeline.
+  - [x] API
+  - [x] Client
+- [ ] Connect frontend to backend properly
 - [ ] Add auth routes to backend.
 - [ ] Add actual frontend code.
   - [ ] Add cron/service that fetches a daily background for home page.
