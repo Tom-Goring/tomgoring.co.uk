@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  tls:
+    - hosts:
+        - tomgoring.co.uk
+        - build.tomgoring.co.uk
+        - www.tomgoring.co.uk
+        - registry.tomgoring.co.uk
+        - api.tomgoring.co.uk
+      secretName: quickstart-example-tls
+  rules:
+    - host: build.tomgoring.co.uk
+      http:
+        paths:
+          - backend:
+              serviceName: drone
+              servicePort: 80
+    - host: tomgoring.co.uk
+      http:
+        paths:
+          - backend:
+              serviceName: tgcu
+              servicePort: 80
+    - host: www.tomgoring.co.uk
+      http:
+        paths:
+          - backend:
+              serviceName: tgcu
+              servicePort: 80
+    - host: registry.tomgoring.co.uk
+      http:
+        paths:
+          - backend:
+              serviceName: docker-registry
+              servicePort: 5000
+    - host: api.tomgoring.co.uk
+      http:
+        paths:
+          - backend:
+              serviceName: tgcu
+              servicePort: 3000

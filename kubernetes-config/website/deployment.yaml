@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tgcu
+  labels:
+    app: tgcu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tgcu
+  template:
+    metadata:
+      labels:
+        app: tgcu
+    spec:
+      containers:
+        - name: api
+          image: registry.tomgoring.co.uk/tomgo/api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: POSTGRES_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: POSTGRES_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: POSTGRES_DB
+            - name: DATABASE_URL
+              value: "postgres://$(DB_USER):$(DB_PASS)@postgres-service.default/$(DB_NAME)"
+        - name: client
+          image: registry.tomgoring.co.uk/tomgo/client
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: registry-credentials
